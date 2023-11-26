@@ -8,6 +8,7 @@
 import Foundation
 
 struct Article: Decodable {
-    let articles: News
+    // FIXME: უნდა დაბრუნდეს News-ების მასივი
+    let articles: [News]
 }
 

@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol NewsViewModelDelegate {
+// FIXME: უნდა იყოს AnyObject
+protocol NewsViewModelDelegate: AnyObject {
     func newsFetched(_ news: [News])
     func showError(_ error: Error)
 }
@@ -20,11 +21,13 @@ protocol NewsViewModel {
 final class DefaultNewsViewModel: NewsViewModel {
     
     // MARK: - Properties
-    private let newsAPI = "https://newsapi.org/v2/everything?q=tesla&from=2021-11-11&sortBy=publishedAt&apiKey=ce67ca95a69542b484f81bebf9ad36d5"
+    // FIXME: API-ში წელია შესასწორებელი
+    private let newsAPI = "https://newsapi.org/v2/everything?q=tesla&from=2023-11-11&sortBy=publishedAt&apiKey=ce67ca95a69542b484f81bebf9ad36d5"
     
     private var newsList = [News]()
 
-    var delegate: NewsViewModelDelegate?
+    // FIXME: უნდა იყოს weak var
+    weak var delegate: NewsViewModelDelegate?
 
     // MARK: - Public Methods
     func viewDidLoad() {
@@ -38,8 +41,9 @@ final class DefaultNewsViewModel: NewsViewModel {
             switch result {
             case .success(let article):
                 // FIXME: newsList-თან საჭიროა self მითითება და default-ად მივუთითე ცარიელი მასივი
+                // კოდის ხაზები უნდა იყოს პირიქით.
+                self?.newsList.append(contentsOf: article.articles)
                 self?.delegate?.newsFetched(self?.newsList ?? [])
-                self?.newsList.append(article.articles)
             case .failure(let error):
                 self?.delegate?.showError(error)
             }

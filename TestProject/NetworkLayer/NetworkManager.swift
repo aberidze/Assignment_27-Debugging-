@@ -20,7 +20,9 @@ final class NetworkManager {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error {
-                DispatchQueue.main.async { completion(.failure(error)) }
+                // FIXME: არ უნდა იყოს Thread-ის ნაწილი
+                // DispatchQueue.main.async { completion(.failure(error)) }
+                completion(.failure(error))
             }
             
             guard let data else { return }

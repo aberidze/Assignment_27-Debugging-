@@ -27,7 +27,8 @@ final class NewsTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true
+        // FIXME: ეს ქვედა კოდი საერთოდ არ უნდა იყოს
+        // label.isHidden = true
         return label
     }()
 
@@ -65,6 +66,16 @@ final class NewsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // FIXME: ალბათ ეს შეცდომა არაა, მაგრამ prepareForReuse() აკლია
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        newsImageView.image = nil
+        newsTitleLabel.text = nil
+        newsAuthorLabel.text = nil
+    }
+    
 
     // MARK: - Setup
     private func setupSubviews() {

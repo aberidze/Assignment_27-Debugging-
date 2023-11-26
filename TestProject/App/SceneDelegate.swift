@@ -54,11 +54,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
-final class DefaultNewViewModel: NewsViewModel {
-    var delegate: NewsViewModelDelegate?
-    
-    func viewDidLoad() {
-        print("find me")
-    }
-}

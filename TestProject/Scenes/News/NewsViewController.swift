@@ -61,7 +61,8 @@ extension NewsViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else {
             fatalError("Could not dequeue NewsCell")
         }
-        cell.configure(with: news[indexPath.row + 1])
+        // FIXME: +1 არ უნდა
+        cell.configure(with: news[indexPath.row])
         return cell
     }
 }
@@ -69,7 +70,8 @@ extension NewsViewController: UITableViewDataSource {
 // MARK: - TableViewDelegate
 extension NewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        .zero
+        // FIXME: სიმაღლე იყო .zero
+        UITableView.automaticDimension
     }
 }
 
@@ -77,7 +79,10 @@ extension NewsViewController: UITableViewDelegate {
 extension NewsViewController: NewsViewModelDelegate {
     func newsFetched(_ news: [News]) {
         self.news = news
-        tableView.reloadData()
+        // FIXME: reload უნდა ხდებოდეს main thread-ზე
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func showError(_ error: Error) {
